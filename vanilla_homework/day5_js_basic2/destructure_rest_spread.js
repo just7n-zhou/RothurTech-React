@@ -8,6 +8,8 @@ export function destructurePerson1() {
     job: "teacher",
   };
   // Write your code here
+  const {name, age, job} = person;
+  console.log(`${name} is ${age} years old and is a ${job}`)
 }
 
 export function destructurePerson2() {
@@ -23,6 +25,8 @@ export function destructurePerson2() {
     },
   };
   // Write your code here
+  const {name, age, address:{city}} = person;
+  console.log(`${name} is ${age} years old and lives in ${city}`)
 }
 
 export function destructurePerson3() {
@@ -39,6 +43,8 @@ export function destructurePerson3() {
   };
 
   // Write your code here
+  const {name:firstName} = person;
+  console.log(`${firstName} is here`);
 }
 
 export function destructurePerson4() {
@@ -54,6 +60,9 @@ export function destructurePerson4() {
 
   // destructure the name and age of person4, and use rest operator to get the rest of the properties
   // write your code here
+  const {name, age, ...rest} = person ;
+  console.log(`${name} is ${age} years old`);
+  console.log(rest);
 }
 
 export function destructureArray1() {
@@ -61,6 +70,8 @@ export function destructureArray1() {
   // expected output: "1 5"
   const arr = [1, 2, 3, 4, 5];
   // Write your code here
+  const [element1,,,, element5] = arr;
+  console.log(`First: ${element1}, fifth: ${element5}`);
 }
 
 export function destructureArray2() {
@@ -81,12 +92,20 @@ export function destructureArray2() {
 
   // destructure the methods from the array, and call them
   // Write your code here
+  const [getMethod, postMethod, putMethod, deleMethod] = methods;
+  console.log(getMethod());
+  console.log(postMethod());
+  console.log(putMethod());
+  console.log(deleMethod());
 }
 
 export function destructureArray3() {
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   // destructure the first 3 elements, and use rest operator to get the rest of the elements
   // Write your code here
+  const [first, second, third, ...rest] = arr;
+  console.log(first, second, third);
+  console.log(`Rest: ${rest}`)
 }
 
 export function spreadObj() {
@@ -96,13 +115,14 @@ export function spreadObj() {
     job: "teacher",
   };
   // 1. use spread operator to create a new object with the same properties as person
-  // const person1 =
+  // spread syntax: (...)
+  const person1 = {...person};
 
   // 2. step 1, but change the name to "Bob"
-  // const person2 =
+  const person2 = {name: "Bob", ...person};
 
   // 3. step 1, but add a new property, hobby: "reading"
-  // const person3 =
+  const person3 = {...person1, hobby: "reading"};
 
   const additionalInfo = {
     salary: 50000,
@@ -110,19 +130,20 @@ export function spreadObj() {
     favFood: "pizza",
   };
   // 4. use spread operator to merge the additionalInfo object with the person object
-  // const person4 =
+  const person4 = {...person, ...additionalInfo};
 }
 
 export function spreadArr() {
   const arr1 = [1, 2, 3];
   const arr2 = [4, 5, 6];
   // 1. use spread operator to create a new array that combines arr1 and arr2
-  // const arr3 =
+  const arr3 = [...arr1, ...arr2];
 
   // 2. use spread operator to create a new array that combines arr1 and arr2, but add a new element, 7
   // expected arr4: [1, 2, 3, 4, 5, 6, 7]
-  // const arr4 =
+  const arr4 = [...arr1, ...arr2, 7];
 
   // 3. combine arr1 and arr2, but add a new element, 0, at the beginning
   // expected arr5: [0, 1, 2, 3, 4, 5, 6]
+  const arr5 = [0, ...arr1, ...arr2];
 }

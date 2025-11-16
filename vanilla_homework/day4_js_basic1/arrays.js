@@ -6,6 +6,11 @@ export function checkIfStringIsNumber(str) {
   //   returns a boolean indicating if the str is a number
   //   Example:
   //   '1' -> true, "a" -> false, "1a" -> false
+  if (str.trim() === ""){return false}
+  else {
+    const num = Number(str); // Convert str to number only it's a valid number string like "123"
+    return isFinite(num);
+  }
 }
 
 export function findAvgOfNums(arr) {
@@ -13,6 +18,16 @@ export function findAvgOfNums(arr) {
   //   argument and returns the average of all the numbers.
   //   Example: const arr = [1, '2', 3, '4', 5];
   //   Expected output: 3
+  let sum = 0;
+  let count = 0;
+  arr.forEach((num)=>{
+    const number = Number(num);
+    if (isFinite(number)) {
+      sum += number; 
+      count += 1;
+    }
+  })
+  return count === 0 ? 0 : sum / count; 
 }
 
 export function findAverageAge(people) {
@@ -20,6 +35,15 @@ export function findAverageAge(people) {
   //   returns the average age of all the people.
   //   Do not use prototype methods
   //   Example: const people = [{name: 'John', age: 21}, {name: 'Alice', age: 25}];
+  let totalAge = 0;
+  let count = 0;
+
+  for(let i = 0; i < people.length; i++){
+    const person = people[i];
+    totalAge += person.age;
+    count += 1
+  }
+  return count === 0 ? 0 : totalAge / count
 }
 
 export function findAvgAgeByJob(people, job) {
@@ -28,6 +52,17 @@ export function findAvgAgeByJob(people, job) {
   //   Do not use prototype methods
   //   Example: const people = [{name: 'John', age: 21, job: 'teacher'}, {name: 'Alice', age: 25, job: 'teacher'}];
   //   Expected output: 23 (teacher)
+  let totalAge = 0;
+  let count = 0;
+
+  for(let i = 0; i < people.length; i++){
+    const person = people[i];
+    if (person.job === job) {
+      totalAge += person.age;
+      count += 1;
+    }
+  }
+  return count === 0 ? 0 : totalAge / count
 }
 
 export function findMaxNum(arr) {
@@ -35,6 +70,15 @@ export function findMaxNum(arr) {
   //   returns the maximum number in that array.
   //   Do not use Math.max
   //   Example: const arr = [1, 2, 3, 4, 5];
+  if (arr.length === 0) {return 0};
+  let currentMax = -Infinity; 
+  arr.forEach((num) => {
+    if (num > currentMax){
+      currentMax = num;
+    }
+  })
+
+  return currentMax;
 }
 
 export function findLongestWord(str) {
@@ -42,6 +86,14 @@ export function findLongestWord(str) {
   //   returns the longest word in that string.
   //   Hint: You can use String.prototype.split
   //   Example: const str = 'I love JavaScript';
+  const str_array = str.split(" ");
+  let longestWord = "";
+  str_array.forEach((word)=>{
+    if (word.length > longestWord.length){
+      longestWord = word;
+    }
+  })
+  return longestWord;
 }
 
 export function findSumOfEvenNums(arr) {
@@ -49,6 +101,13 @@ export function findSumOfEvenNums(arr) {
   //   returns an array of only the even numbers.
   //   Example: const arr = [1, 2, 3, 4, 5];
   //   Expected output: [2, 4]
+  let even_arr = [];
+  arr.forEach((num)=>{
+    if (num % 2 === 0) {
+      even_arr.push(num);
+    }
+  })
+  return even_arr;
 }
 
 // reference types
@@ -58,10 +117,37 @@ export function bubbleSortArr1(num) {
   // Do not use Array.prototype.sort
   // Example: const num = [5, 3, 8, 2, 1];
   // Expected output: [1, 2, 3, 5, 8]
+  const newNum = [...num];
+
+  // Bubble sort
+  for (let i = 0; i < newNum.length; i++) {
+    for (let j = 0; j < newNum.length - 1; j++) {
+      if (newNum[j] > newNum[j + 1]) {
+        [newNum[j], newNum[j+1]] = [newNum[j+1], newNum[j]];
+      }
+    }
+  }
+
+  return newNum;
+
 }
 
 export function bubbleSortArr2(num) {
   // Same as above but this time returns the original array reference sorted.
+  let isSwapped;
+  for (let i = 0; i < num.length; i++){
+    isSwapped = false;
+    for (let j = 0; j < num.length - 1; j++){
+      if(num[j] > num[j + 1]){
+        [num[j], num[j + 1]] = [num[j + 1], num[j]];
+        isSwapped = true;
+      }
+    }
+    if (!isSwapped) {
+      break;
+    }
+  }
+  return num
 }
 
 export function removeTypes(arr, typeToRemove) {
@@ -70,6 +156,13 @@ export function removeTypes(arr, typeToRemove) {
   // Example: const arr = [1, '2', 3, '4', 5];
   // removeTypes(arr, 'string');
   // Expected output: [1, 3, 5]
+  let newArr = [];
+  arr.forEach((element)=>{
+    if (typeof(element) !== typeToRemove){
+      newArr.push(element);
+    }
+  }) 
+  return newArr;
 }
 
 // reinvent the wheel: prototype methods
@@ -79,6 +172,19 @@ export function changeNumsByAmount(nums, amount, operator) {
   // Example: const nums = [1, 2, 3, 4, 5];
   // changeNumsByAmount(nums, 2, '+');
   // Expected output: [3, 4, 5, 6, 7]
+  let newNums = [];
+  nums.forEach((num)=>{
+    if (operator === '+') {
+      newNums.push(num + amount);
+    } else if (operator === '-') {
+      newNums.push(num - amount);
+    } else if (operator === '*') {
+      newNums.push(num * amount);
+    } else if (operator === '/') {
+      newNums.push(num / amount);
+    }
+  })
+  return newNums;
 }
 
 export function removeNumFromArr(nums, num) {
@@ -87,4 +193,11 @@ export function removeNumFromArr(nums, num) {
   // Example: const nums = [1, 2, 3, 3, 3, 4, 5];
   // removeNumFromArr(nums, 3);
   // Expected output: [1, 2, 4, 5]
+  let newNums = [];
+  nums.forEach((number)=>{
+    if (number !== num){
+      newNums.push(number);
+    }
+  })
+  return newNums;
 }

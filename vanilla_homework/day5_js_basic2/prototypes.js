@@ -6,6 +6,13 @@ export function myMap(arr, cb) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // myMap(arr, num => num * 2);
   // Expected output: [2, 4, 6, 8, 10]
+  const res = [];
+
+  arr.forEach((element) => {
+    res.push(cb(element))
+  });
+  
+  return res;
 }
 
 export function myFilter(arr, cb) {
@@ -14,6 +21,13 @@ export function myFilter(arr, cb) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // myFilter(arr, num => num % 2 === 0);
   // Expected output: [2, 4]
+  const res = [];
+  arr.forEach((e)=>{
+    if(cb(e)){
+      res.push(e)
+    }
+  })
+  return res;
 }
 
 export function myConcat(arr1, arr2) {
@@ -23,6 +37,7 @@ export function myConcat(arr1, arr2) {
   // const arr2 = [4, 5, 6];
   // myConcat(arr1, arr2);
   // Expected output: [1, 2, 3, 4, 5, 6]
+  return [...arr1, ...arr2];
 }
 
 export function myFind(arr, cb) {
@@ -31,6 +46,14 @@ export function myFind(arr, cb) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // myFind(arr, num => num % 2 === 0);
   // Expected output: 2
+
+  // Can't use forEach since forEach can't be broker by return, break or continue
+  for(let i=0; i<arr.length; i++){
+    if(cb(arr[i])){
+      return arr[i];
+    }
+  }
+  return 
 }
 
 export function myEvery(arr, cb) {
@@ -39,6 +62,12 @@ export function myEvery(arr, cb) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // myEvery(arr, num => num > 0);
   // Expected output: true
+  for(let i=0; i<arr.length; i++){
+    if(cb(!arr[i])){
+      return false;
+    }
+  }
+  return true
 }
 
 export function mySome(arr, cb) {
@@ -47,6 +76,12 @@ export function mySome(arr, cb) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // mySome(arr, num => num % 2 === 0);
   // Expected output: true
+  for(let i=0; i<arr.length; i++){
+    if(cb(arr[i])){
+      return true;
+    }
+  }
+  return false 
 }
 
 export function myIncludes(arr, val) {
@@ -55,6 +90,7 @@ export function myIncludes(arr, val) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // myIncludes(arr, 3);
   // Expected output: true
+  return arr.includes(val);
 }
 
 export function myJoin(arr, separator) {
@@ -63,6 +99,7 @@ export function myJoin(arr, separator) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // myJoin(arr, '-');
   // Expected output: '1-2-3-4-5'
+  return arr.join(separator);
 }
 
 export function myPush(arr, val) {
@@ -71,6 +108,8 @@ export function myPush(arr, val) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // myPush(arr, 6);
   // Expected output: [1, 2, 3, 4, 5, 6]
+  arr.push(val);
+  return arr;
 }
 
 export function myReverse1(arr) {
@@ -79,19 +118,48 @@ export function myReverse1(arr) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // myReverse(arr);
   // Expected output: [5, 4, 3, 2, 1]
+  let reversedArr = [];
+  for(let i=arr.length - 1; i>=0; i--){
+    reversedArr.push(arr[i]);
+  }
+  return reversedArr;
 }
 
 export function myReverse2(arr) {
   // Same as above but this time returns the original array reference reversed.
+  let start = 0; 
+  let end = arr.length - 1; 
+  while(start < end){
+    [arr[start], arr[end]] = [arr[end], arr[start]];
+    start++; 
+    end--;
+  }
+  return arr;
+  // Same result below
+  arr.reverse();
+  return arr
 }
 
 // Challenges
-export  function myReduce(arr, cb, initial) {
+export function myReduce(arr, cb, initial) {
   // Write a function that takes an array, a callback and an initial value as arguments
   // and returns a single value.
   // Example: const arr = [1, 2, 3, 4, 5];
   // myReduce(arr, (acc, num) => acc + num, 0);
   // Expected output: 15
+  let accumulator = initial;
+
+  for (let i = 0; i < arr.length; i++) {
+    accumulator = cb(accumulator, arr[i], i, arr);
+  }
+
+  return accumulator;
+  // reduce() takes an array and reduces it to a single value by running a callback function on each element
+  // You can chose what type the single value should hold 
+  // basic syntax:
+  arr.reduce((accumulator, currentValue) => {
+  // logic here
+}, initialValue);
 }
 
 export function mySort(arr, cb) {
@@ -100,6 +168,13 @@ export function mySort(arr, cb) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // mySort(arr, (a, b) => a - b);
   // Expected output: [1, 2, 3, 4, 5]
+  // copy array so we don't mutate original
+  const newArr = [...arr];
+
+  // sort with the provided callback
+  newArr.sort(cb);
+
+  return newArr;
 }
 
 export function mySlice(arr, start, end) {
@@ -108,4 +183,5 @@ export function mySlice(arr, start, end) {
   // Example: const arr = [1, 2, 3, 4, 5];
   // mySlice(arr, 1, 3);
   // Expected output: [2, 3]
+  return arr.slice(start, end);
 }
